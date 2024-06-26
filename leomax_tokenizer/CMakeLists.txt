@@ -13,4 +13,9 @@ if (WITH_PYTHON)
     # 设置编译出来的库没有 "lib"前缀
     set_target_properties(core_tokenizers PROPERTIES PREFIX "")
     set_target_properties(core_tokenizers PROPERTIES SUFFIX ".so")
+
+endif()
+
+if (APPLE)
+    SET(CMAKE_INSTALL_RPATH "@loader_path/core_tokenizers.so")
 endif()

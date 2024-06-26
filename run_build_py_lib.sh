@@ -1,4 +1,4 @@
-# mkdir -p build_py39
+ mkdir -p build_py39
 
 for py_version in 9; do
     echo build_py3${py_version}
@@ -9,9 +9,8 @@ for py_version in 9; do
     # if [[ $platform == Linux* ]]; then
 
     # if
-    export LD_LIBRARY_PATH=/home/users/xiongxinlei/opt/anaconda3/lib/:${LD_LIBRARY_PATH}
-    export PATH=/home/users/xiongxinlei/opt/anaconda3/bin/:${PATH}
-    export PATH=/home/users/xiongxinlei/opt/cmake-3.25.1-linux-x86_64/bin/:${PATH}
+    export LD_LIBRARY_PATH=/Users/admin/opt/miniconda3/lib/:${LD_LIBRARY_PATH}
+    export PATH=/Users/admin/opt/miniconda3/bin/:${PATH}
     core_num=`lscpu | grep "^CPU(s)"  | awk '{print $NF}'`
     echo "compile with ${core_num} cores"
 
