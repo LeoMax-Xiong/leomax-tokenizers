@@ -14,7 +14,7 @@ for py_version in 9; do
     core_num=`lscpu | grep "^CPU(s)"  | awk '{print $NF}'`
     echo "compile with ${core_num} cores"
 
-    cmake ../ -DWITH_PYTHON=ON -DWITH_TESTING=OFF
+    cmake ../ -DWITH_PYTHON=ON -DWITH_TESTING=OFF -DCMAKE_BUILD_TYPE=Debug
     make -j${core_num}
     if [[ $? == 0 ]]; then
         echo "compile success"
