@@ -52,10 +52,50 @@ else ()
     set(CMAKE_CXX_STANDARD 14)
 endif ()
 
+# 对编译参数进行配置
+if(WIN32)
+
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -fPIC") # 后续添加-O3 的优化
+    if (NOT APPLE)
+        # 在非APPLE系统生效
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ldl")
+        if(NOT ANDROID) # 非安卓系统
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpthread")
+        else ()
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os")
+        endif ()
+    else ()
+        message(STATUS "This an apple system")
+    endif ()
+
+    # 公共设置
+    set(PUBLIC_DEPEND_LIBS ${CMAKE_DL_LIBS})
+    message(STATUS "The public_depend_libs is ${PUBLIC_DEPEND_LIBS}")
+endif()
+
+# 设置安装的前缀与顶层的头文件依赖目录
+set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
+set(TOKENIZER_INSTALL_INCLUDE_DIR ${PROJECT_SOURCE_DIR})
+include_directories(${TOKENIZERS_INSTALL_INCLUDE_DIR})
+message(STATUS "cmake install prefix is ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "cmake_cxx_flags is: ${CMAKE_CXX_FLAGS}")
+message(STATUS "cmake_exe_linker_flags is: ${CMAKE_EXE_LINKER_FLAGS}")
+message(STATUS "tokenizer install include dir ${TOKENIZER_INSTALL_INCLUDE_DIR}")
+
+# 添加预定义的函数以及第三方库需要的一些配置
+# config GIT_URL with github mirrors to speed up dependent repos clone
+option(GIT_URL "Git URL to clone dependent repos" ${GIT_URL})
+if(NOT GIT_URL)
+    set(GIT_URL "https://github.com")
+endif()
+
+# 引入预先定义好的cmake文件夹中的内容
+include(generic)
+include(cmake/third_party.cmake)
+RETURN()
 
 # 目前不对window进行兼容
-
-
 set(CPP_PACKAGE_DIR ${CMAKE_BINARY_DIR}/cpp/leomax_tokenizer)
 
 set(TOKENIZER_CORE_NAME "core_tokenizers")
@@ -72,27 +112,6 @@ endif ()
 #     COMMAND ${CMAKE_COMMAND} -E copy ${TOKENIZER_CORE_LIBS_PATH} ${CPP_PACKAGE_DIR}/lib
 #     DEPENDS build_cpp_package_dir core_tokenizers)
 
-set(TOKENIZER_INSTALL_INCLUDE_DIR ${PROJECT_SOURCE_DIR})
-include_directories(${TOKENIZERS_INSTALL_INCLUDE_DIR})
-message(STATUS "tokenizer install include dir ${TOKENIZER_INSTALL_INCLUDE_DIR}")
-
-# if(WIN32) 
-
-# else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC") # 后续添加-O3 的优化
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ldl")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpthread")
-# endif()
-
-# 添加预定义的函数以及第三方库需要的一些配置
-# config GIT_URL with github mirrors to speed up dependent repos clone
-option(GIT_URL "Git URL to clone dependent repos" ${GIT_URL})
-if(NOT GIT_URL)
-    set(GIT_URL "https://github.com")
-endif()
-
-include(cmake/generic.cmake)
-include(cmake/third_party.cmake)
 
 ######################################################################
 #########################添加 c++ 版本的 tokenizer #####################
