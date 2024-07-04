@@ -92,26 +92,20 @@ endif()
 
 # 引入预先定义好的cmake文件夹中的内容
 include(generic)
-include(cmake/third_party.cmake)
-RETURN()
+include(third_party)
 
-# 目前不对window进行兼容
+# cmake_binary_dir 是指build_py39中保存cpp库的路径
 set(CPP_PACKAGE_DIR ${CMAKE_BINARY_DIR}/cpp/leomax_tokenizer)
+add_custom_target(build_cpp_package_dir ALL
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CPP_PACKAGE_DIR}/lib
+                ${CPP_PACKAGE_DIR}/include ${CPP_PACKAGE_DIR}/third_party/include
+                ${CPP_PACKAGE_DIR}/third_party/lib
+        DEPENDS core_tokenizers)
 
-set(TOKENIZER_CORE_NAME "core_tokenizers")
-set(TOKENIZER_CORE_PATH ${CMAKE_BINARY_DIR}/leomax_tokenizer)
+message(STATUS "cpp package dir: ${CPP_PACKAGE_DIR}")
+set(TOKENIZER_CORE_NAME "core_tokenizers")                          # 设置c++库的名称
+set(TOKENIZER_CORE_PATH ${CMAKE_BINARY_DIR}/leomax_tokenizer)       # 设置 c++ 动态库的路径
 message(STATUS "tokenizer core path: ${TOKENIZER_CORE_PATH}")
-
-if (APPLE)
-    set(TOKENIZER_CORE_LIBS_PATH "${TOKENIZER_CORE_PATH}/lib${TOKENIZER_CORE_NAME}.dylib")
-else ()
-    set(TOKENIZER_CORE_LIBS_PATH "${TOKENIZER_CORE_PATH}/lib${TOKENIZER_CORE_NAME}.so")
-endif ()
-
-# add_custom_target(copy_shared_library ALL
-#     COMMAND ${CMAKE_COMMAND} -E copy ${TOKENIZER_CORE_LIBS_PATH} ${CPP_PACKAGE_DIR}/lib
-#     DEPENDS build_cpp_package_dir core_tokenizers)
-
 
 ######################################################################
 #########################添加 c++ 版本的 tokenizer #####################
@@ -123,9 +117,16 @@ if(WITH_PYTHON)
     add_subdirectory(python)
 endif(WITH_PYTHON)
 
+return()
 if (APPLE)
-    SET(CMAKE_INSTALL_RPATH "@loader_path/core_tokenizers.so")
-endif()
+    set(TOKENIZER_CORE_LIBS_PATH "${TOKENIZER_CORE_PATH}/lib${TOKENIZER_CORE_NAME}.dylib")
+else ()
+    set(TOKENIZER_CORE_LIBS_PATH "${TOKENIZER_CORE_PATH}/lib${TOKENIZER_CORE_NAME}.so")
+endif ()
+
+# add_custom_target(copy_shared_library ALL
+#     COMMAND ${CMAKE_COMMAND} -E copy ${TOKENIZER_CORE_LIBS_PATH} ${CPP_PACKAGE_DIR}/lib
+#     DEPENDS build_cpp_package_dir core_tokenizers)
 
 
 
