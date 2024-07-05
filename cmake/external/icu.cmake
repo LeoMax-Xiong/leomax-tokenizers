@@ -16,9 +16,9 @@ include(ExternalProject)
 include (ByproductsICU.cmake)
 SET(ICU_PREFIX_DIR    ${THIRD_PARTY_PATH}/icu)
 SET(ICU_INSTALL_DIR   ${THIRD_PARTY_PATH}/install/icu)
-SET(ICU_REPOSITORY    ${GIT_URL}/unicode-org/icu.git)
+SET(ICU_REPOSITORY    ${GIT_URL}/LeoMax-Xiong/unicode-icu.git)
 
-SET(ICU_TAG           release-70-1)
+SET(ICU_TAG           v75)
 set(FIND_OR_BUILD_ICU_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 set(HOST_CFLAGS "${CMAKE_C_FLAGS}")

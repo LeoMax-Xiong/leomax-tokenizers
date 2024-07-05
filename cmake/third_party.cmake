@@ -11,7 +11,7 @@ endif()
 include(external/re2)
 include(external/gflags)    # gflags 一定要放在glog之前
 include(external/glog)
-#include(external/icu)      # icu 可以后续自建仓库，官方仓库太大
+include(external/icu)      # icu 可以后续自建仓库，官方仓库太大
 include(external/nlohmann_json)
 
 add_library(python SHARED IMPORTED GLOBAL)
