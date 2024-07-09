@@ -2,6 +2,7 @@
 #define LEOMAX_TOKENIZER_NORMALIZERS_NORMALIZER_H_
 #include <string>
 #include <vector>
+#include <functional>
 #include "../core/base.h"
 #include <algorithm>
 #include "re2/re2.h"

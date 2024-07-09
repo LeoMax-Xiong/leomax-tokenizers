@@ -14,21 +14,21 @@
 
 include(ExternalProject)
 
-set(JSON_PREFIX_DIR     ${THIRD_PARTY_PATH}/json)
-SET(JSON_REPOSITORY     https://gitee.com/leomax-mirrors/nlohmann-json.git)
-SET(JSON_TAG            v3.10.5)
+set(OPTIONAL_PREFIX_DIR     ${THIRD_PARTY_PATH}/optional)
+SET(OPTIONAL_REPOSITORY     ${GIT_URL}/TartanLlama/optional.git)
+SET(OPTIONAL_TAG            v1.1.0)
 
-set(JSON_INCLUDE_DIR ${THIRD_PARTY_PATH}/json/src/extern_json/single_include)
-include_directories(${JSON_INCLUDE_DIR})
+set(OPTIONAL_INCLUDE_DIR ${THIRD_PARTY_PATH}/optional/src/extern_optional/include/)
+include_directories(${OPTIONAL_INCLUDE_DIR})
 
 ExternalProject_Add(
-  extern_json
+  extern_optional
         ${EXTERNAL_PROJECT_LOG_ARGS}
         ${SHALLOW_CLONE}
-        GIT_REPOSITORY    ${JSON_REPOSITORY}
-        GIT_TAG           ${JSON_TAG}
+        GIT_REPOSITORY    ${OPTIONAL_REPOSITORY}
+        GIT_TAG           ${OPTIONAL_TAG}
         GIT_PROGRESS      1
-        PREFIX            ${JSON_PREFIX_DIR}
+        PREFIX            ${OPTIONAL_PREFIX_DIR}
         # If we explicitly leave the `UPDATE_COMMAND` of the ExternalProject_Add
         # function in CMakeLists blank, it will cause another parameter GIT_TAG
         # to be modified without triggering incremental compilation, and the
@@ -41,6 +41,6 @@ ExternalProject_Add(
         TEST_COMMAND      ""
 )
 
-add_library(json INTERFACE)
+add_library(optioanl INTERFACE)
 
-add_dependencies(json extern_json)
+add_dependencies(optioanl extern_optioanl)

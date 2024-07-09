@@ -17,7 +17,7 @@ INCLUDE(ExternalProject)
 SET(GLOG_PREFIX_DIR  ${THIRD_PARTY_PATH}/glog)
 SET(GLOG_INSTALL_DIR ${THIRD_PARTY_PATH}/install/glog)
 SET(GLOG_INCLUDE_DIR "${GLOG_INSTALL_DIR}/include" CACHE PATH "glog include directory." FORCE)
-SET(GLOG_REPOSITORY ${GIT_URL}/google/glog.git)
+SET(GLOG_REPOSITORY https://gitee.com/leomax-mirrors/glog.git)
 SET(GLOG_TAG        v0.4.0)
 
 IF(WIN32)
