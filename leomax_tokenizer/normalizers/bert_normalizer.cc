@@ -62,7 +62,7 @@ void BertNormalizer::do_handle_chinese_chars(NormalizedString *input) const {
     u32output.reserve(u32input.length() * 3);
     changes.reserve(u32input.length() * 3);
     for (int i = 0; i < u32input.length(); ++i) {
-        VLOG(6) << "current index: " << i << ", current char: " << u32input[i];
+        VLOG(6) << "current index: " << i << ", current char: ";
         if (unicode::is_chinese_char(u32input[i])) {
             u32output.push_back(' ');
             u32output.push_back(u32input[i]);
