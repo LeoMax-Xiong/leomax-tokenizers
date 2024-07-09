@@ -13,6 +13,7 @@ if (WITH_PYTHON)
     cc_library(core_tokenizers SHARED
                 SRCS demo/demo.cpp
                 DEPS pybind python)
+                
     # 设置编译出来的库没有 "lib"前缀
     set_target_properties(core_tokenizers PROPERTIES PREFIX "")
     if (WIN32)

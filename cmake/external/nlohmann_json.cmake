@@ -15,7 +15,7 @@
 include(ExternalProject)
 
 set(JSON_PREFIX_DIR     ${THIRD_PARTY_PATH}/json)
-SET(JSON_REPOSITORY     ${GIT_URL}/nlohmann/json.git)
+SET(JSON_REPOSITORY     https://gitee.com/Honei_X/nlohmann-json.git)
 SET(JSON_TAG            v3.10.5)
 
 set(JSON_INCLUDE_DIR ${THIRD_PARTY_PATH}/json/src/extern_json/single_include)
