@@ -9,7 +9,7 @@ message(STATUS "Major Version: ${PROJECT_VERSION_MAJOR}")
 message(STATUS "Minor Version: ${PROJECT_VERSION_MINOR}")
 message(STATUS "Patch Version: ${PROJECT_VERSION_PATCH}")
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
 # 设置两个选项
@@ -35,7 +35,7 @@ message(STATUS "CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}")
 
 # 对不同的操作系统设置是否用c++11的库
 if (NOT WIN32)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++20")       # 目前支持c++20
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")       # 目前支持c++20
     if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")          # 对arm64芯片的特殊配置
         set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-no-as-needed")
     endif ()
@@ -50,7 +50,7 @@ if (NOT WIN32)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_USE_CXX11_ABI=1")
     endif ()
 else ()
-    set(CMAKE_CXX_STANDARD 20)
+    set(CMAKE_CXX_STANDARD 11)
 endif ()
 
 # 对编译参数进行配置

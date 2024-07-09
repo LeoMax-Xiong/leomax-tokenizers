@@ -6,7 +6,7 @@
 #include "../normalizers/bert_normalizer.h"
 #include "../normalizers/unicode_normalizer.h"
 #include "utils.h"
-#include <optional>
+#include "tl/optional.hpp"
 namespace py = pybind11;    // 简化pybind11的命名空间
 
 namespace leomax_tokenizer {
@@ -39,14 +39,14 @@ void bind_tokenizers(pybind11::module* m) {
              &tokenizers::Tokenizer::encode_single_text,
              py::arg("text"))
         .def("token_to_id", [](tokenizers::Tokenizer& self, 
-                               const std::string& token)-> std::optional<uint32_t> {
+                               const std::string& token)-> tl::optional<uint32_t> {
             uint32_t token_id;
             bool success = self.token_to_id(token, &token_id);
             if (success) {
                 return token_id;
             } 
 
-             return std::nullopt;  // Return None
+             return tl::nullopt;  // Return None
         })
         .def("add_special_tokens", [](tokenizers::Tokenizer& self, 
                                       const std::vector<std::string>& tokens) {
