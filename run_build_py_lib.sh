@@ -7,8 +7,8 @@ for py_version in 9; do
     platform="$(uname -s)"
     echo "platform: ${platform}"
 
-    export LD_LIBRARY_PATH=/home/users/xiongxinlei/opt/anaconda3/lib/:${LD_LIBRARY_PATH}
-    export PATH=/home/users/xiongxinlei/opt/anaconda3/bin/:${PATH}
+    export LD_LIBRARY_PATH=/Users/admin/opt/anaconda3/lib/:${LD_LIBRARY_PATH}
+    export PATH=/Users/admin/opt/anaconda3/bin:${PATH}
     if [[ $platform == Linux* ]]; then
       core_num=`lscpu | grep "^CPU(s)"  | awk '{print $NF}'`
     else

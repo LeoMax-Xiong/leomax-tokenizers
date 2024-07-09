@@ -1,5 +1,97 @@
+# Copyright (c) 2022 PaddlePaddle Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 include(python_module)
 
-find_package(PythonInterp ${PY_VERSION} REQUIRED)
-find_package(PythonLibs ${PY_VERSION} REQUIRED)
-message(STATUS "Python interpreter: ${PY_VERSION}")
+## 查找 Python 3 解释器和库
+find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+#
+## 获取 Python 3 的头文件和库
+#include_directories(${Python3_INCLUDE_DIRS})
+#link_directories(${Python3_LIBRARY_DIRS})
+#
+message(STATUS "Python3_LIBRARIES: ${Python3_LIBRARIES}")
+message(STATUS "Python3_INCLUDE_DIRS: ${Python3_INCLUDE_DIRS}")
+message(STATUS "Python3_EXECUTABLE: ${Python3_EXECUTABLE}")
+#
+add_library(python SHARED IMPORTED GLOBAL)
+set_property(TARGET python PROPERTY IMPORTED_LOCATION ${Python3_LIBRARIES})
+
+#
+#
+##set(py_env "")
+##if(PYTHONINTERP_FOUND)
+##    find_python_module(pip REQUIRED)
+##    find_python_module(numpy REQUIRED)
+##    find_python_module(wheel REQUIRED)
+##    FIND_PACKAGE(NumPy REQUIRED)
+##endif(PYTHONINTERP_FOUND)
+#include_directories(${PYTHON_INCLUDE_DIR})
+##include_directories(${PYTHON_NUMPY_INCLUDE_DIR})
+
+#if(WIN32)
+#    execute_process(COMMAND "${PYTHON_EXECUTABLE}" "-c"
+#            "from distutils import sysconfig as s;import sys;import struct;
+#print(sys.prefix);
+#print(s.get_config_var('LDVERSION') or s.get_config_var('VERSION'));
+#"
+#            RESULT_VARIABLE _PYTHON_SUCCESS
+#            OUTPUT_VARIABLE _PYTHON_VALUES
+#            ERROR_VARIABLE _PYTHON_ERROR_VALUE)
+#
+#    if(NOT _PYTHON_SUCCESS EQUAL 0)
+#        set(PYTHONLIBS_FOUND FALSE)
+#        return()
+#    endif()
+#
+#    # Convert the process output into a list
+#    string(REGEX REPLACE ";" "\\\\;" _PYTHON_VALUES ${_PYTHON_VALUES})
+#    string(REGEX REPLACE "\n" ";" _PYTHON_VALUES ${_PYTHON_VALUES})
+#    list(GET _PYTHON_VALUES 0 PYTHON_PREFIX)
+#    list(GET _PYTHON_VALUES 1 PYTHON_LIBRARY_SUFFIX)
+#
+#    # Make sure all directory separators are '/'
+#    string(REGEX REPLACE "\\\\" "/" PYTHON_PREFIX ${PYTHON_PREFIX})
+#
+#    set(PYTHON_LIBRARY
+#            "${PYTHON_PREFIX}/libs/Python${PYTHON_LIBRARY_SUFFIX}.lib")
+#
+#    # when run in a venv, PYTHON_PREFIX points to it. But the libraries remain in the
+#    # original python installation. They may be found relative to PYTHON_INCLUDE_DIR.
+#    if(NOT EXISTS "${PYTHON_LIBRARY}")
+#        get_filename_component(_PYTHON_ROOT ${PYTHON_INCLUDE_DIR} DIRECTORY)
+#        set(PYTHON_LIBRARY
+#                "${_PYTHON_ROOT}/libs/Python${PYTHON_LIBRARY_SUFFIX}.lib")
+#    endif()
+#
+#    # raise an error if the python libs are still not found.
+#    if(NOT EXISTS "${PYTHON_LIBRARY}")
+#        message(FATAL_ERROR "Python libraries not found")
+#    endif()
+#    SET(PYTHON_LIBRARIES "${PYTHON_LIBRARY}")
+#endif(WIN32)
+
+# Fixme: Maybe find a static library. Get SHARED/STATIC by FIND_PACKAGE.
+
+SET(py_env "")
+IF(PYTHONINTERP_FOUND)
+    find_python_module(pip REQUIRED)
+    find_python_module(numpy REQUIRED)
+    find_python_module(wheel REQUIRED)
+    FIND_PACKAGE(NumPy REQUIRED)
+ENDIF(PYTHONINTERP_FOUND)
+INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIR})
+INCLUDE_DIRECTORIES(${PYTHON_NUMPY_INCLUDE_DIR})
+
+

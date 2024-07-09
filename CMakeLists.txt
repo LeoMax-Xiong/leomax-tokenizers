@@ -115,18 +115,18 @@ add_subdirectory(leomax_tokenizer)
 if(WITH_PYTHON)
     # 编译 python 的库
     add_subdirectory(python)
+    # 编译对应的版本包
+#    if (NOT APPLE AND NOT WIN32) # Linux
+#        add_custom_target(build_tokenizers_bdist_wheel ALL
+#                COMMAND ${PYTHON_EXECUTABLE} setup.py bdist_wheel --plat-name=manylinux1_x86_64
+#                COMMENT "Packing whl packages------>>>"
+#                DEPENDS copy_python_tokenizers)
+#    else()
+#        add_custom_target(build_tokenizers_bdist_wheel ALL
+#                COMMAND ${CMAKE_COMMAND} -E env ${py_env} ${PYTHON_EXECUTABLE} setup.py bdist_wheel
+#                COMMENT "Packing whl packages------>>>"
+#                DEPENDS copy_python_tokenizers)
+#    endif()
 endif(WITH_PYTHON)
-
-return()
-if (APPLE)
-    set(TOKENIZER_CORE_LIBS_PATH "${TOKENIZER_CORE_PATH}/lib${TOKENIZER_CORE_NAME}.dylib")
-else ()
-    set(TOKENIZER_CORE_LIBS_PATH "${TOKENIZER_CORE_PATH}/lib${TOKENIZER_CORE_NAME}.so")
-endif ()
-
-# add_custom_target(copy_shared_library ALL
-#     COMMAND ${CMAKE_COMMAND} -E copy ${TOKENIZER_CORE_LIBS_PATH} ${CPP_PACKAGE_DIR}/lib
-#     DEPENDS build_cpp_package_dir core_tokenizers)
-
 
 
